@@ -1,8 +1,21 @@
-import PostModal from "../models/Post.js";
+import PostModel from "../models/Post.js";
+
+export const getAll = async (req, res) => {
+  try {
+    const posts = await PostModel.find().populate("user").exec();
+
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось получить статьи",
+    });
+  }
+};
 
 export const create = async (req, res) => {
   try {
-    const doc = new PostModal({
+    const doc = new PostModel({
       title: req.body.title,
       text: req.body.text,
       imageUrl: req.body.imageUrl,
